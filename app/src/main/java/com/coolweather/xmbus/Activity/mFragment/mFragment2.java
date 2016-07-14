@@ -1,127 +1,78 @@
 package com.coolweather.xmbus.Activity.mFragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.amap.api.maps2d.AMap;
-import com.amap.api.maps2d.LocationSource;
-import com.amap.api.maps2d.MapView;
-import com.amap.api.maps2d.model.BitmapDescriptorFactory;
-import com.amap.api.maps2d.model.MyLocationStyle;
 import com.coolweather.xmbus.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by ZongJie on 2016/6/4.
  */
-public class mFragment2 extends Fragment implements LocationSource,AMapLocationListener,
-        CompoundButton.OnCheckedChangeListener{
-    private MapView mapView;
-    private AMap aMap;
-    private OnLocationChangedListener mlistener;
-    private AMapLocationClient aMapLocationClient;
-    private AMapLocationClientOption aMapLocationClientOption;
+public class mFragment2 extends Fragment{
+    private AMapLocationClient aMapLocationClient=null;
+    private AMapLocationListener aMapLocationListener;
+    private AMapLocationClientOption aMapLocationClientOption=null;
 
+    @Nullable
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView=inflater.inflate(R.layout.mfragment2,container,false);
-        mapView= (MapView) rootView.findViewById(R.id.map);
-        mapView.onCreate(savedInstanceState);//实现地图生命周期管理
-        init();
-        Log.e("sss", "111");
-        return rootView;
-    }
-    private void init(){
-        if(aMap==null){
-            Log.e("sss","222");
-            aMap=mapView.getMap();
-            setUpMap();
-            Log.e("sss","ssss");
-        }
-    }
-    private void setUpMap(){
-        MyLocationStyle myLocationStyle=new MyLocationStyle();
-        myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromResource(R.drawable.location_marker));
-        myLocationStyle.strokeColor(Color.BLACK);
-        myLocationStyle.radiusFillColor(Color.argb(100, 0, 0, 180));
-        myLocationStyle.strokeWidth(0.5f);
-        aMap.setMyLocationStyle(myLocationStyle);
-        aMap.setLocationSource(this);
-        aMap.getUiSettings().setMyLocationButtonEnabled(true);
-        aMap.setMyLocationEnabled(true);
-    }
-    @Override
-    public void onResume() {
-        super.onResume();
-        mapView.onResume();
-    }
+        View view=inflater.inflate(R.layout.mfragment2,container,false);
+        /*aMapLocationClient=new AMapLocationClient(getContext());
+        aMapLocationClientOption=new AMapLocationClientOption();
+        aMapLocationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        aMapLocationClientOption.setNeedAddress(true);
+        aMapLocationClientOption.setOnceLocation(false);
+        aMapLocationClientOption.setWifiActiveScan(true);
+        aMapLocationClientOption.setMockEnable(false);
+        aMapLocationClientOption.setInterval(2000);
+        aMapLocationClient.setLocationOption(aMapLocationClientOption);
+        aMapLocationClient.startLocation();
+        aMapLocationListener=new AMapLocationListener() {
+            @Override
+            public void onLocationChanged(AMapLocation aMapLocation) {
+                if(aMapLocation!=null){
+                    if(aMapLocation.getErrorCode()==0){
+                        aMapLocation.getLocationType();
+                        aMapLocation.getLatitude();
+                        aMapLocation.getLongitude();
+                        aMapLocation.getAccuracy();
+                        SimpleDateFormat ft=new SimpleDateFormat("yyyy-MM-dd HH:m:s");
+                        Date date=new Date(aMapLocation.getTime());
+                        ft.format(date);
+                        aMapLocation.getCountry();
+                        aMapLocation.getProvince();
+                        aMapLocation.getCity();
+                        aMapLocation.getDistrict();
+                        aMapLocation.getStreet();
+                        aMapLocation.getStreetNum();
+                        aMapLocation.getCityCode();
+                        aMapLocation.getAdCode();
+                        aMapLocation.getAoiName();
+                    }else{
+                        Log.e("AmapError", "location Error, ErrCode:"
+                                + aMapLocation.getErrorCode() + ", errInfo:"
+                                + aMapLocation.getErrorInfo());
+                    }
+                }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        mapView.onPause();
-        deactivate();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mapView.onDestroy();
-
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mapView.onSaveInstanceState(outState);
-    }
-    //定位成功后回调函数
-    @Override
-    public void onLocationChanged(AMapLocation aMapLocation) {
-        if(mlistener!=null&&aMapLocation!=null){
-            if(aMapLocation!=null&&aMapLocation.getErrorCode()==0){
-                mlistener.onLocationChanged(aMapLocation);
-            }else {
-                String errtext="定位失败"+aMapLocation.getErrorCode()+":"+aMapLocation.getErrorInfo();
-                Log.e("AmapErr",errtext);
             }
-        }
+        };
+        aMapLocationClient.setLocationListener(aMapLocationListener);*/
 
-    }
-    //激活定位
-    @Override
-    public void activate(OnLocationChangedListener onLocationChangedListener) {
-       mlistener=onLocationChangedListener;
-        if(aMapLocationClient!=null){
-            aMapLocationClient=new AMapLocationClient(getContext());
-            aMapLocationClientOption=new AMapLocationClientOption();
-            aMapLocationClient.setLocationListener(this);
-            aMapLocationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-            aMapLocationClient.setLocationOption(aMapLocationClientOption);
-            aMapLocationClient.startLocation();
-        }
+        return view;
     }
 
-    @Override
-    public void deactivate() {
-        mlistener=null;
-        if(aMapLocationClient!=null){
-            aMapLocationClient.stopLocation();
-            aMapLocationClient.onDestroy();
-        }
-        aMapLocationClient=null;
-    }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-    }
 }
+

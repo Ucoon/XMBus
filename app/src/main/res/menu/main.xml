@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<item android:id="@+id/map_common"
+    app:showAsAction="never"
+    android:title="普通地图"/>
+    <item android:id="@+id/map_site"
+        app:showAsAction="never"
+        android:title="卫星地图"/>
+    <item android:id="@+id/map_traffic"
+        app:showAsAction="never"
+        android:title="实时交通(off)"/>
+</menu>

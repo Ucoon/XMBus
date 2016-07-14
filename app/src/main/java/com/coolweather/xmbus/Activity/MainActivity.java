@@ -11,11 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 
+
 import com.coolweather.xmbus.Activity.mFragment.mFragment0;
 import com.coolweather.xmbus.Activity.mFragment.mFragment1;
 import com.coolweather.xmbus.Activity.mFragment.mFragment2;
 import com.coolweather.xmbus.Activity.mFragment.mFragment3;
 import com.coolweather.xmbus.R;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +41,12 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout= (TabLayout) findViewById(R.id.tabs);
         String[] titles={"关注","搜索","周边","更多"};
         List<Fragment> fragments=new ArrayList<>();
-
         for(int i=0;i<4;i++){
-
             switch (i){
                 case 0:
                     tabLayout.addTab(tabLayout.newTab().setText(titles[0]));
                     mFragment0 mfragment0=new mFragment0();
                     fragments.add(mfragment0);
-
-
                     break;
                 case 1:
                     tabLayout.addTab(tabLayout.newTab().setText(titles[1]));
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 case 2:
                     tabLayout.addTab(tabLayout.newTab().setText(titles[2]));
                     mFragment2 mfragment2=new mFragment2();
-                    fragments.add(mfragment2);
+                   fragments.add(mfragment2);
                     break;
                 case 3:
                     tabLayout.addTab(tabLayout.newTab().setText(titles[3]));
@@ -74,5 +73,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }
